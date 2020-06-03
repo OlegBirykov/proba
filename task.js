@@ -4,8 +4,10 @@ const modalWindow = document.getElementById('subscribe-modal');
 const modalClose = modalWindow.querySelector('.modal__close');
 
 const getCookie = name => {
-  let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"))
-  return matches ? decodeURIComponent(matches[1]) : undefined
+  const value = "; " + document.cookie;
+  let parts = value.split("; " + name + "=");
+  if (parts.length === 2)
+    return parts.pop().split(";").shift();
 }
 
 modalClose.addEventListener('click', () => {
@@ -16,5 +18,5 @@ modalClose.addEventListener('click', () => {
 
 console.log(getCookie('modal'));
 
-if (getCookie('modal') === 'close')
+if (getCookie('modal') !== 'close')
   modalWindow.classList.add('modal_active');
